@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 const Home = () => {
   const [micStream, setMicStream] = useState<any>(null);
-  const { browserSupportsSpeechRecognition, resetTranscript, finalTranscript } = useSpeechRecognition();
+  const { browserSupportsSpeechRecognition, resetTranscript } = useSpeechRecognition();
 
   const { isModalStartOpen, namePersonCall, setNamePersonCall, setIsModalStartOpen, setModalStopTranscribing, modalStopTranscribing, listening, setListening, setOpenViewSidebar, setOpenSettings } = useGlobalStore();
 
