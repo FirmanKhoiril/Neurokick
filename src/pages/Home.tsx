@@ -6,12 +6,11 @@ import { FaRegPlayCircle } from "react-icons/fa";
 import { LiaStopCircle } from "react-icons/lia";
 import { toast } from "sonner";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const Home = () => {
-  const [micStream, setMicStream] = useState<any>(null);
   const { browserSupportsSpeechRecognition, resetTranscript } = useSpeechRecognition();
-  const { isModalStartOpen, namePersonCall, setNamePersonCall, setIsModalStartOpen, setModalStopTranscribing, modalStopTranscribing, listening, setListening, setOpenViewSidebar, setOpenSettings } = useGlobalStore();
+  const { isModalStartOpen, namePersonCall, setNamePersonCall, setIsModalStartOpen, setModalStopTranscribing, modalStopTranscribing, micStream, setMicStream, listening, setListening, setOpenViewSidebar, setOpenSettings } = useGlobalStore();
 
   useEffect(() => {
     const containerElement = document.getElementById("container");

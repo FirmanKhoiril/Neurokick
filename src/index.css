@@ -64,11 +64,11 @@ body {
 }
 
 .history__section {
-  @apply w-full  h-[83vh] scrollbar-none  flex flex-col gap-2;
+  @apply w-full  h-[83vh] scrollbar-none overflow-y-auto  flex flex-col gap-2;
 }
 
 .card__history {
-  @apply bg-[#e5e8f5] dark:bg-[#25272D] mt-3 px-3 py-5 md:px-5 flex justify-between sm:gap-0 gap-4 sm:grid grid-cols-4 items-center w-full h-[116px] rounded-lg;
+  @apply bg-[#e5e8f5] dark:bg-[#25272D] mt-3 px-3 py-6 md:px-5 flex justify-between sm:gap-0 gap-4 sm:grid grid-cols-4 items-center w-full h-[120px] rounded-lg;
 }
 
 .modal__container {
