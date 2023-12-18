@@ -64,7 +64,11 @@ body {
 }
 
 .history__section {
-  @apply w-full overflow-y-auto h-[83vh] scrollbar-none  flex flex-col gap-2;
+  @apply w-full  h-[83vh] scrollbar-none  flex flex-col gap-2;
+}
+
+.card__history {
+  @apply bg-[#e5e8f5] dark:bg-[#25272D] mt-3 px-3 py-5 md:px-5 flex justify-between sm:gap-0 gap-4 sm:grid grid-cols-4 items-center w-full h-[116px] rounded-lg;
 }
 
 .modal__container {
@@ -72,7 +76,7 @@ body {
 }
 
 .modal__input {
-  @apply bg-[#cfd4e0] placeholder:text-black/50 dark:placeholder:text-white/50 dark:bg-[#1F2022] px-4 py-2.5 rounded-[8px] outline-none;
+  @apply bg-[#cfd4e0] placeholder:text-black/50 dark:placeholder:text-white/50 sm:placeholder:text-base placeholder:text-sm dark:bg-[#1F2022] px-4 py-2.5 rounded-[8px] outline-none;
 }
 
 .main__container {
@@ -86,9 +90,6 @@ body {
   @apply fixed shadow-black/20 shadow-[0px_12px_26px_2px] bottom-12 p-2 left-4 md:left-5 rounded-lg w-[250px] h-[150px] text-black/80 dark:text-gray z-10 flex flex-col gap-2 bg-[#e5e8f5] dark:bg-[#30323b];
 }
 
-.card__history {
-  @apply bg-[#e5e8f5] dark:bg-[#25272D] mt-3 p-5 flex items-center w-full h-[116px] rounded-lg;
-}
 .not__start__transcribing {
   @apply w-full h-[159px] overflow-hidden relative rounded-[8px] bg-[#e5e8f5] dark:bg-[#25272d] flex justify-end flex-col items-start;
 }

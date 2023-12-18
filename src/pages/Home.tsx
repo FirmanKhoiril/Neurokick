@@ -57,17 +57,13 @@ const Home = () => {
     };
     setListening(true);
     startSpeechRecognition();
-    console.log("start 1");
 
     const intervalId = setInterval(() => {
       SpeechRecognition.stopListening();
-      console.log("stop the recording 1");
+
       resetTranscript();
       startSpeechRecognition();
-      console.log("start 2");
     }, 10000);
-
-    // Clear the interval on component unmount
     return () => {
       clearInterval(intervalId);
       audioMotion.disconnectInput(micStream, true);
