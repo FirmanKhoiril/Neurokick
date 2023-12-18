@@ -27,22 +27,24 @@ const History = () => {
           <p>5 multiplier behaviours found</p>
           <p>2 diminishing behaviours found</p>
         </div>
-        <button type="button">{!dark ? <BsTrash3 size={19} /> : <img src={IconDelete} height={22} width={22} alt="Delete Conversation" />}</button>
+        <button type="button">{!dark ? <BsTrash3 size={19} /> : <img src={IconDelete} height={22} width={25} alt="Delete Conversation" />}</button>
       </div>
-      {/* <div className="card__history">
-        <div className="h-[90px] text-[#667085] w-[380px] flex flex-col gap-2  text-sm">
-          <p className=" text-black/90 dark:text-gray text-base">Sarah / Ian (1:1 weekly sync up call)</p>
-          <p>1 min ago</p>
+      <div className="card__history">
+        <div className=" text-[#667085]  flex flex-col gap-2  text-[13px] lg:text-sm">
+          <p className=" text-black/90 dark:text-gray ">
+            Sarah / Ian <br className="sm:hidden block" /> (1:1 weekly sync up call)
+          </p>
+          <p>1 hour ago</p>
         </div>
-        <div className="text-[#667085] w-[200px]">
-          <p>11/30/23</p>
+        <div className="text-[#667085]">
+          <p className="text-[12px] md:text-base">11/30/23</p>
         </div>
-        <div className="text-sm flex flex-col w-[300px] gap-1 text-[#667085]">
+        <div className="text-[12px] lg:text-sm flex flex-col gap-1 text-[#667085]">
           <p>5 multiplier behaviours found</p>
           <p>2 diminishing behaviours found</p>
         </div>
         <button type="button">{!dark ? <BsTrash3 size={20} /> : <img src={IconDelete} height={22} width={22} alt="Delete Conversation" />}</button>
-      </div> */}
+      </div>
     </section>
   );
 };

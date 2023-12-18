@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 const Home = () => {
   const [micStream, setMicStream] = useState<any>(null);
   const { browserSupportsSpeechRecognition, resetTranscript } = useSpeechRecognition();
-
   const { isModalStartOpen, namePersonCall, setNamePersonCall, setIsModalStartOpen, setModalStopTranscribing, modalStopTranscribing, listening, setListening, setOpenViewSidebar, setOpenSettings } = useGlobalStore();
 
   useEffect(() => {
@@ -58,16 +57,17 @@ const Home = () => {
     setListening(true);
     startSpeechRecognition();
 
-    const intervalId = setInterval(() => {
-      SpeechRecognition.stopListening();
+    // const intervalId = setInterval(() => {
+    //   SpeechRecognition.stopListening();
 
-      resetTranscript();
-      startSpeechRecognition();
-    }, 10000);
+    //   resetTranscript();
+    //   startSpeechRecognition();
+    // }, 10000);
     return () => {
-      clearInterval(intervalId);
+      // clearInterval(intervalId);
       audioMotion.disconnectInput(micStream, true);
       setListening(false);
+      resetTranscript();
       SpeechRecognition.stopListening();
     };
   }, [namePersonCall !== "", !isModalStartOpen]);
