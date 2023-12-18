@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply font-inter min-h-screen relative  max-h-screen overflow-hidden w-full dark:text-white bg-white dark:bg-gradient-to-b from-[#3E404C_11.99%] to-[#18191d_81.92%] text-black;
+}
+
+.flex__between {
+  @apply flex justify-between items-center;
+}
+.livetranscribing__container {
+  @apply border-b text-slate-500 dark:text-gray border-[#667085] h-[30px] lg:h-[55px];
+}
+
+.sidebar__logo {
+  @apply flex pb-8 text-black/80 dark:text-gray  gap-2.5;
+}
+
+.sidebar__bottomside {
+  @apply border-t w-full px-0.5 md:px-2 border-[#343944] dark:border-[#667085] flex flex-col gap-2.5;
+}
+
+.sidebar__container {
+  @apply h-screen flex flex-col items-center justify-between shadow-[2px_2px_12px_2px] shadow-black/20 w-[60px] md:w-[350px] px-3  rounded-xl;
+}
+
+.sidebar__topside {
+  @apply py-14 w-full items-center flex flex-col gap-2;
+}
+
+.sidebar__links {
+  @apply flex flex-col w-full items-start pt-8 gap-2;
+}
+.profile__user {
+  @apply pt-5 flex items-center gap-4;
+}
+.profile__gmail {
+  @apply dark:text-[#667085] text-[#787f90] text-[13px] lg:text-sm;
+}
+
+.btn__settings {
+  @apply text-black/80 dark:text-[#878787] dark:hover:text-gray flex items-center gap-2 py-4 text-[15px];
+}
+
+.btn__sidebar {
+  @apply flex py-3 rounded-xl items-center gap-2;
+}
+
+.btn__uprade__premium {
+  @apply flex text-[12px] lg:text-sm items-center  gap-1.5 md:gap-2 lg:gap-3 px-3 md:px-4 lg:px-6 shadow-black/20 shadow-[0px_12px_26px_2px] py-[10px] bg-white dark:bg-[#444555] rounded-lg;
+}
+.btn__start__transcribing {
+  @apply flex items-center shadow-black/20 shadow-[0px_12px_26px_2px] gap-2  py-[10px] rounded-[8px] text-white px-4;
+}
+.nav__container {
+  @apply w-full text-black/80 dark:text-gray items-center gap-8 flex justify-between md:justify-end pt-8 pb-16;
+}
+
+.home__section {
+  @apply w-full overflow-y-auto h-[83vh]  flex flex-col gap-2;
+}
+
+.history__section {
+  @apply w-full overflow-y-auto h-[83vh] scrollbar-none  flex flex-col gap-2;
+}
+
+.modal__container {
+  @apply md:w-[500px] w-[400px] lg:w-[750px] h-[264px] flex justify-center px-8 md:px-12 lg:px-20 flex-col gap-2 md:gap-3 fixed z-10 bg-white  dark:bg-[#2C2D35] right-0 left-0 mx-auto top-1/3 rounded-[8px];
+}
+
+.modal__input {
+  @apply bg-[#cfd4e0] placeholder:text-black/50 dark:placeholder:text-white/50 dark:bg-[#1F2022] px-4 py-2.5 rounded-[8px] outline-none;
+}
+
+.main__container {
+  @apply dark:text-white bg-white dark:bg-gradient-to-b from-[#3E404C_11.99%] to-[#18191d_81.92%] text-black flex gap-2 min-h-screen overflow-hidden w-full;
+}
+
+.register__input {
+  @apply outline-none border border-gray-300 dark:border-transparent dark:bg-darkInput rounded-[6px] py-2.5 px-3.5 placeholder:text-sm text-sm;
+}
+.settings__container {
+  @apply fixed shadow-black/20 shadow-[0px_12px_26px_2px] bottom-12 p-2 left-4 md:left-5 rounded-lg w-[250px] h-[150px] text-black/80 dark:text-gray z-10 flex flex-col gap-2 bg-[#e5e8f5] dark:bg-[#30323b];
+}
+
+.card__history {
+  @apply bg-[#e5e8f5] dark:bg-[#25272D] mt-3 p-5 flex items-center w-full h-[116px] rounded-lg;
+}
+.not__start__transcribing {
+  @apply w-full h-[159px] overflow-hidden relative rounded-[8px] bg-[#e5e8f5] dark:bg-[#25272d] flex justify-end flex-col items-start;
+}
+#container {
+  @apply block w-[100%]  h-[159px];
+}
