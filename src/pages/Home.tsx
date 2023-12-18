@@ -138,7 +138,7 @@ const Home = () => {
           <span className="text-[12px] md:text-sm">{namePersonCall !== "" && !isModalStartOpen && listening ? "Stop" : "Start"} Transcribing</span>
         </button>
       </div>
-      <div className="w-full h-full  scrollbar-none overflow-y-auto flex-col">
+      <div className="w-full h-[300px]  scrollbar-none overflow-y-auto flex-col">
         <div className={` ${namePersonCall !== "" && !isModalStartOpen ? "p-0" : " p-6"} not__start__transcribing`}>
           {namePersonCall !== "" ? !isModalStartOpen && <div id="container"></div> : null}
           <div className={`${namePersonCall !== "" && !isModalStartOpen ? "flex-row justify-between items-center w-full " : "flex-col"} flex`}>
