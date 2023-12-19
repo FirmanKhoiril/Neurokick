@@ -1,5 +1,4 @@
-import { emptyTranscript } from "../assets";
-import { CHistory, Loading } from "../components";
+import { CHistory, Loading, NotFound } from "../components";
 import { useGetAllTranscript } from "../hooks/useGetAllTranscript";
 import { toast } from "sonner";
 
@@ -26,10 +25,7 @@ const History = () => {
       )}
 
       {data?.data.length === 0 ? (
-        <div className="flex pt-10 flex-col gap-10 justify-center items-center w-full">
-          <img src={emptyTranscript} width={240} height={240} alt="Create new Transcribing in Live Transcribing page" />
-          <h1 className="dark:text-white text-black tracking-wide cursor-default text-2xl">Create new Transcribing </h1>
-        </div>
+        <NotFound />
       ) : (
         isSuccess && (
           <>

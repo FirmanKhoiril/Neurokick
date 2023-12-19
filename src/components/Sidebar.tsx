@@ -1,17 +1,12 @@
 import { BlackLogo, WhiteLogo } from "../assets";
 import { FaHistory, FaMicrophone } from "react-icons/fa";
 import { useGlobalStore } from "../context/useStore";
-import { CiSettings } from "react-icons/ci";
 import { useLocation, Link } from "react-router-dom";
-import { ProfileUser } from ".";
+import { ProfileUser, Settings } from ".";
 
 const Sidebar = () => {
   const location = useLocation();
-  const { dark, setOpenSettings, openSettings, listening } = useGlobalStore();
-
-  const toogleSetting = () => {
-    setOpenSettings(!openSettings);
-  };
+  const { dark, listening } = useGlobalStore();
 
   return (
     <aside className="sidebar__container relative">
@@ -38,10 +33,7 @@ const Sidebar = () => {
 
       <div className="sidebar__bottomside ">
         <ProfileUser />
-        <button className="btn__settings " onClick={toogleSetting} type="button">
-          <CiSettings size={25} />
-          <span className="md:block hidden">Settings</span>
-        </button>
+        <Settings />
       </div>
     </aside>
   );

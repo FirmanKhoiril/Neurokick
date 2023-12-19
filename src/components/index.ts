@@ -12,5 +12,7 @@ import SettingsPopup from "./SettingsPopup";
 import CHistory from "./card/History";
 import Loading from "./Loading";
 import ProfileUser from "./ProfileUser";
+import Settings from "./button/Settings";
+import NotFound from "./NotFound";
 
-export { Apple, Facebook, Microsoft, Loading, ProfileUser, Google, CHistory, SettingsPopup, ViewSidebar, FooterLinks, Modal, Sidebar, TranscribingContent, Navbar };
+export { Apple, Facebook, Microsoft, Settings, NotFound, Loading, ProfileUser, Google, CHistory, SettingsPopup, ViewSidebar, FooterLinks, Modal, Sidebar, TranscribingContent, Navbar };
