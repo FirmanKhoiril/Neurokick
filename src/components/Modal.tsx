@@ -1,9 +1,9 @@
 import { useGlobalStore } from "../context/useStore";
 import { FormEvent } from "react";
-import { ColorRing } from "react-loader-spinner";
 import { toast } from "sonner";
 import { createNewTranscript } from "../api/postTranscript";
 import { useMutation } from "react-query";
+import Loading from "./Loading";
 
 interface IModal {
   normalText: string;
@@ -14,7 +14,7 @@ interface IModal {
 }
 
 const Modal = ({ normalText, isInput, grayText, onClick, isLoadingSavedTranscript }: IModal) => {
-  const { namePersonCall, dark, setNamePersonCall, setTranscriptId, setListening, setIsModalStartOpen, setModalStopTranscribing } = useGlobalStore();
+  const { namePersonCall, setNamePersonCall, setTranscriptId, setListening, setIsModalStartOpen, setModalStopTranscribing } = useGlobalStore();
 
   const { mutate: createTranscript, isLoading } = useMutation({
     mutationFn: (name: string) => createNewTranscript(name),
@@ -55,33 +55,11 @@ const Modal = ({ normalText, isInput, grayText, onClick, isLoadingSavedTranscrip
         </button>
         {isInput ? (
           <button type="submit" className="bg-primary flex justify-center items-center text-white w-[140px] md:w-[180px] sm:text-base text-sm py-2.5 md:py-3.5 px-5 rounded-[8px]">
-            {isLoading ? (
-              <ColorRing
-                visible={true}
-                height="25"
-                width="25"
-                ariaLabel="blocks-loading"
-                wrapperClass="blocks-wrapper"
-                colors={[dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000"]}
-              />
-            ) : (
-              "Yes, confirm"
-            )}
+            {isLoading ? <Loading width={25} height={25} /> : "Yes, confirm"}
           </button>
         ) : (
           <button type="button" onClick={onClick} className="bg-primary flex justify-center items-center text-white w-[140px] md:w-[180px] py-2.5 md:py-3.5 px-5 sm:text-base text-sm rounded-[8px]">
-            {isLoadingSavedTranscript ? (
-              <ColorRing
-                visible={true}
-                height="25"
-                width="25"
-                ariaLabel="blocks-loading"
-                wrapperClass="blocks-wrapper"
-                colors={[dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000"]}
-              />
-            ) : (
-              "Yes, confirm"
-            )}
+            {isLoadingSavedTranscript ? <Loading width={25} height={25} /> : "Yes, confirm"}
           </button>
         )}
       </div>

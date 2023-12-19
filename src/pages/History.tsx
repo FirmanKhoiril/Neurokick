@@ -1,9 +1,7 @@
-import { ColorRing } from "react-loader-spinner";
 import { emptyTranscript } from "../assets";
-import { CHistory } from "../components";
+import { CHistory, Loading } from "../components";
 import { useGetAllTranscript } from "../hooks/useGetAllTranscript";
 import { toast } from "sonner";
-import { useGlobalStore } from "../context/useStore";
 
 export interface ICardHistory {
   _id: string;
@@ -13,7 +11,6 @@ export interface ICardHistory {
   createdAt: string;
 }
 const History = () => {
-  const { dark } = useGlobalStore();
   const { data, isError, isFetching, isLoading, isSuccess } = useGetAllTranscript();
 
   if (isError) toast.error("Make sure your connection is stable");
@@ -24,14 +21,7 @@ const History = () => {
 
       {isLoading && isFetching && (
         <div className="w-full flex justify-center items-center h-[60vh]">
-          <ColorRing
-            visible={true}
-            height="80"
-            width="80"
-            ariaLabel="blocks-loading"
-            wrapperClass="blocks-wrapper"
-            colors={[dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000"]}
-          />
+          <Loading width={80} height={80} />
         </div>
       )}
 

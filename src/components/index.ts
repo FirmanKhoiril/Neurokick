@@ -10,5 +10,6 @@ import FooterLinks from "./FooterLinks";
 import TranscribingContent from "./TranscribingContent";
 import SettingsPopup from "./SettingsPopup";
 import CHistory from "./card/History";
+import Loading from "./Loading";
 
-export { Apple, Facebook, Microsoft, Google, CHistory, SettingsPopup, ViewSidebar, FooterLinks, Modal, Sidebar, TranscribingContent, Navbar };
+export { Apple, Facebook, Microsoft, Loading, Google, CHistory, SettingsPopup, ViewSidebar, FooterLinks, Modal, Sidebar, TranscribingContent, Navbar };
