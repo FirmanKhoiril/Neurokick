@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
   const { browserSupportsSpeechRecognition, resetTranscript } = useSpeechRecognition();
-  const { isModalStartOpen, namePersonCall, setNamePersonCall, setIsModalStartOpen, setModalStopTranscribing, modalStopTranscribing, micStream, setMicStream, listening, setListening, setOpenViewSidebar, setOpenSettings } = useGlobalStore();
+  const { isModalStartOpen, setNamePersonCall, setIsModalStartOpen, setModalStopTranscribing, modalStopTranscribing, micStream, setMicStream, listening, setListening, setOpenViewSidebar, setOpenSettings } = useGlobalStore();
 
   useEffect(() => {
     const containerElement = document.getElementById("container");
@@ -20,10 +20,6 @@ const Home = () => {
       mode: 10,
       channelLayout: "single",
       fillAlpha: 0.6,
-      // "orangered"
-      // "rainbow"
-      // "classic"
-      // "steelblue"
       gradient: "prism",
       lineWidth: 1.5,
       maxFreq: 20000,
@@ -101,7 +97,7 @@ const Home = () => {
           <div className="livetranscribing__container">
             <p className="text-[14px] md:text-[18px] lg:text-[28px] tracking-tight">Live Transcribe</p>
           </div>
-          {!isModalStartOpen && namePersonCall !== "" && (
+          {listening && (
             <button
               type="button"
               onClick={() => {
@@ -117,7 +113,7 @@ const Home = () => {
         <button
           type="button"
           onClick={() => {
-            if (!isModalStartOpen && namePersonCall !== "") {
+            if (listening) {
               setModalStopTranscribing(true);
               setOpenSettings(false);
             } else {
@@ -125,22 +121,20 @@ const Home = () => {
               setOpenSettings(false);
             }
           }}
-          className={`${namePersonCall !== "" && !isModalStartOpen ? "bg-[#6C272D]" : "bg-primary"} btn__start__transcribing`}
+          className={`${listening ? "bg-[#6C272D]" : "bg-primary"} btn__start__transcribing`}
         >
-          {namePersonCall !== "" && !isModalStartOpen ? <LiaStopCircle size={18} /> : <FaRegPlayCircle size={18} />}
+          {listening ? <LiaStopCircle size={18} /> : <FaRegPlayCircle size={18} />}
           <span className="text-[12px] md:text-sm">{listening ? "Stop" : "Start"} Transcribing</span>
         </button>
       </div>
-      <div className={` ${namePersonCall !== "" && !isModalStartOpen ? "p-0" : " p-6"} not__start__transcribing`}>
-        {namePersonCall !== "" ? !isModalStartOpen && <div id="container"></div> : null}
-        <div className={`${namePersonCall !== "" && !isModalStartOpen ? "flex-row justify-between items-center w-full " : "flex-col"} flex`}>
-          <p className={` ${namePersonCall !== "" && !isModalStartOpen && "absolute bottom-4 left-4"} text-black/70 dark:text-gray`}>{namePersonCall !== "" && !isModalStartOpen ? "" : "Not"} Recording</p>
-          <span className={`dark:text-[#61687a] ${namePersonCall !== "" && !isModalStartOpen && "absolute bottom-4 right-4"} text-[#828ba1]  text-sm`}>
-            Audio Quality: {namePersonCall !== "" && !isModalStartOpen ? "24-bit/192 kHz" : "Unknown"}
-          </span>
+      <div className={` ${listening ? "p-0" : " p-6"} not__start__transcribing`}>
+        {listening ? <div id="container"></div> : null}
+        <div className={`${listening ? "flex-row justify-between items-center w-full " : "flex-col"} flex`}>
+          <p className={` ${listening && "absolute bottom-4 left-4"} text-black/70 dark:text-gray`}>{listening ? "" : "Not"} Recording</p>
+          <span className={`dark:text-[#61687a] ${listening && "absolute bottom-4 right-4"} text-[#828ba1]  text-sm`}>Audio Quality: {listening ? "24-bit/192 kHz" : "Unknown"}</span>
         </div>
       </div>
-      <div className="w-full max-h-[44vh] mt-3  scrollbar-none overflow-y-auto ">{namePersonCall !== "" && !isModalStartOpen && <TranscribingContent />}</div>
+      <div className="w-full max-h-[44vh] mt-3  scrollbar-none overflow-y-auto ">{listening && <TranscribingContent />}</div>
     </section>
   );
 };
