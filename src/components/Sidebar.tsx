@@ -1,8 +1,9 @@
-import { BlackLogo, User, WhiteLogo } from "../assets";
+import { BlackLogo, WhiteLogo } from "../assets";
 import { FaHistory, FaMicrophone } from "react-icons/fa";
 import { useGlobalStore } from "../context/useStore";
 import { CiSettings } from "react-icons/ci";
 import { useLocation, Link } from "react-router-dom";
+import { ProfileUser } from ".";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -34,14 +35,9 @@ const Sidebar = () => {
           </Link>
         </div>
       </div>
+
       <div className="sidebar__bottomside ">
-        <div className="profile__user">
-          <img src={User} alt="User Profile" className="profile__image" />
-          <div className="md:block hidden">
-            <p className="text-[15px]">Ian Timotheos</p>
-            <p className="profile__gmail">iantimotheos@gmail.com</p>
-          </div>
-        </div>
+        <ProfileUser />
         <button className="btn__settings " onClick={toogleSetting} type="button">
           <CiSettings size={25} />
           <span className="md:block hidden">Settings</span>

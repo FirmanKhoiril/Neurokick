@@ -17,8 +17,8 @@ const Register = () => {
               <h1 className="font-bold tracking-tight text-4xl">NeuroKick</h1>
             </div>
             {isSignup ? <Signup /> : <Signin />}
+            <p className=" text-center text-gray-500 pt-6">or</p>
           </div>
-          <p className=" text-center text-gray-500">or</p>
           <div className=" grid grid-cols-2 grid-rows-2 items-center gap-2">
             <Google />
             <Apple />

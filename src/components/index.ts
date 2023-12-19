@@ -11,5 +11,6 @@ import TranscribingContent from "./TranscribingContent";
 import SettingsPopup from "./SettingsPopup";
 import CHistory from "./card/History";
 import Loading from "./Loading";
+import ProfileUser from "./ProfileUser";
 
-export { Apple, Facebook, Microsoft, Loading, Google, CHistory, SettingsPopup, ViewSidebar, FooterLinks, Modal, Sidebar, TranscribingContent, Navbar };
+export { Apple, Facebook, Microsoft, Loading, ProfileUser, Google, CHistory, SettingsPopup, ViewSidebar, FooterLinks, Modal, Sidebar, TranscribingContent, Navbar };
