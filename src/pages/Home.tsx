@@ -2,10 +2,10 @@ import { Modal, TranscribingContent } from "../components";
 import { useGlobalStore } from "../context/useStore";
 import AudioMotionAnalyzer from "audiomotion-analyzer";
 import "regenerator-runtime/runtime";
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { FaRegPlayCircle } from "react-icons/fa";
 import { LiaStopCircle } from "react-icons/lia";
 import { toast } from "sonner";
-import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { QueryClient, useMutation } from "react-query";
@@ -15,7 +15,7 @@ const queryClient = new QueryClient();
 
 const Home = () => {
   const navigate = useNavigate();
-  const { browserSupportsSpeechRecognition, resetTranscript, finalTranscript } = useSpeechRecognition();
+  const { browserSupportsSpeechRecognition,  resetTranscript, transcript } = useSpeechRecognition();
   const { isModalStartOpen, setNamePersonCall, setIsModalStartOpen, setModalStopTranscribing, modalStopTranscribing, micStream, setMicStream, transcriptId, listening, setListening, setOpenViewSidebar, setOpenSettings } = useGlobalStore();
 
   const { mutate: saveTranscript, isLoading } = useMutation({
@@ -82,7 +82,7 @@ const Home = () => {
   if (!browserSupportsSpeechRecognition) toast.error("Browser didn't support speech recognition");
 
   const handleCloseStopModal = () => {
-    saveTranscript({ content: finalTranscript, id: transcriptId });
+    saveTranscript({ content: transcript, id: transcriptId });
   };
 
   if (modalStopTranscribing)

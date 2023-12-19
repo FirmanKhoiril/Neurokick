@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { History, Home, Register, SelectedTranscript } from "./pages";
+import { History, Home, Register } from "./pages";
 import { useGlobalStore } from "./context/useStore";
 import { Navbar, SettingsPopup, Sidebar, ViewSidebar } from "./components";
 import { Toaster } from "sonner";
@@ -22,7 +22,6 @@ export const App = (): JSX.Element => {
           <Routes>
             <Route element={<Home />} path="/" />
             <Route element={<History />} path="/current-history" />
-            <Route element={<SelectedTranscript />} path="/currenthistory/:id" />
             <Route element={<Register />} path="/register" />
           </Routes>
         </div>

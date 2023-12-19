@@ -11,6 +11,17 @@ export const getTranscript = async () => {
   return response;
 };
 
+export const getTranscriptById = async (id: any) => {
+  try {
+    const response = await api.post("/api/transcript/id", {
+      id,
+    });
+    return response;
+  } catch (error) {
+    throw new Error(`${error} Error`);
+  }
+};
+
 export const createNewTranscript = async (name: string) => {
   try {
     const response = await api.post("/api/new-transcript", { name });
