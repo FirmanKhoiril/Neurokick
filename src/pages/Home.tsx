@@ -8,11 +8,32 @@ import { toast } from "sonner";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { QueryClient, useMutation } from "react-query";
+import { TSaveTranscript, savedTranscript } from "../api/postTranscript";
+
+const queryClient = new QueryClient();
 
 const Home = () => {
   const navigate = useNavigate();
-  const { browserSupportsSpeechRecognition, resetTranscript } = useSpeechRecognition();
-  const { isModalStartOpen, setNamePersonCall, setIsModalStartOpen, setModalStopTranscribing, modalStopTranscribing, micStream, setMicStream, listening, setListening, setOpenViewSidebar, setOpenSettings } = useGlobalStore();
+  const { browserSupportsSpeechRecognition, resetTranscript, finalTranscript } = useSpeechRecognition();
+  const { isModalStartOpen, setNamePersonCall, setIsModalStartOpen, setModalStopTranscribing, modalStopTranscribing, micStream, setMicStream, transcriptId, listening, setListening, setOpenViewSidebar, setOpenSettings } = useGlobalStore();
+
+  const { mutate: saveTranscript, isLoading } = useMutation({
+    mutationFn: ({ content, id }: TSaveTranscript) => savedTranscript({ content, id }),
+    onError: (err: any) => {
+      toast.error(err.message);
+    },
+    onSuccess: () => {
+      toast.success(`Transcript updated successfuly!`);
+      queryClient.invalidateQueries("getTranscript");
+      setModalStopTranscribing(false);
+      setNamePersonCall("");
+      resetTranscript();
+      navigate("/current-history");
+      SpeechRecognition.stopListening();
+      setListening(false);
+    },
+  });
 
   useEffect(() => {
     const containerElement = document.getElementById("container");
@@ -61,19 +82,14 @@ const Home = () => {
   if (!browserSupportsSpeechRecognition) toast.error("Browser didn't support speech recognition");
 
   const handleCloseStopModal = () => {
-    setModalStopTranscribing(false);
-    setNamePersonCall("");
-    resetTranscript();
-    navigate("/current-history");
-    SpeechRecognition.stopListening();
-    setListening(false);
+    saveTranscript({ content: finalTranscript, id: transcriptId });
   };
 
   if (modalStopTranscribing)
     return (
       <>
         <div className="fixed right-0 top-0 w-full h-screen bg-black/75" />
-        <Modal normalText="Are you sure?" onClick={handleCloseStopModal} isInput={false} grayText="Your transcription will be saved to the archive locally on your machine" />
+        <Modal normalText="Are you sure?" isLoadingSavedTranscript={isLoading} onClick={handleCloseStopModal} isInput={false} grayText="Your transcription will be saved to the archive locally on your machine" />
       </>
     );
 

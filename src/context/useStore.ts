@@ -25,10 +25,14 @@ interface IGlobalState {
   setListening: (listening: boolean) => void;
   micStream: AudioNode | null;
   setMicStream: (micStream: AudioNode | null) => void;
+  transcriptId: string;
+  setTranscriptId: (transcriptId: string) => void;
 }
 
 export const useGlobalStore = create<IGlobalState>()((set) => ({
   isSignup: false,
+  transcriptId: "",
+  setTranscriptId: (transcriptId: string) => set({ transcriptId }),
   modalStopTranscribing: false,
   transcript: "",
   micStream: null,

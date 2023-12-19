@@ -1,130 +1,59 @@
-import { IconDelete } from "../assets/index";
+import { ColorRing } from "react-loader-spinner";
+import { emptyTranscript } from "../assets";
+import { CHistory } from "../components";
+import { useGetAllTranscript } from "../hooks/useGetAllTranscript";
+import { toast } from "sonner";
 import { useGlobalStore } from "../context/useStore";
-import { BsTrash3 } from "react-icons/bs";
 
+export interface ICardHistory {
+  _id: string;
+  content: string;
+  name: string;
+  isProcessing: boolean;
+  createdAt: string;
+}
 const History = () => {
   const { dark } = useGlobalStore();
+  const { data, isError, isFetching, isLoading, isSuccess } = useGetAllTranscript();
+
+  if (isError) toast.error("Make sure your connection is stable");
+
   return (
     <section className="history__section pb-8">
       <h1 className="text-[24px] md:text-[30px] text-slate-500 dark:text-gray tracking-tight">Your History</h1>
-      <div className=" pl-3 pr-9 sm:pr-5 sm:pl-5 pt-4 sm:pt-6 md:mt-10 flex items-center justify-between sm:grid  grid-cols-4  text-slate-500 dark:text-gray  gap-2 w-full">
-        <h1 className="text-sm md:text-base">Respondent</h1>
-        <h1 className="text-sm md:text-base">Date</h1>
-        <h1 className="text-sm md:text-base">Behavioaural Trends</h1>
-      </div>
-      <div className="card__history">
-        <div className=" text-[#667085] flex flex-col gap-1 md:gap-2 text-[13px] lg:text-sm">
-          <h1 className="text-red-600">Still Processing...</h1>
-          <p>
-            Sarah / Ian <br className="sm:hidden block" /> (1:1 weekly sync up call)
-          </p>
-          <p>1 min ago</p>
+
+      {isLoading && isFetching && (
+        <div className="w-full flex justify-center items-center h-[60vh]">
+          <ColorRing
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="blocks-loading"
+            wrapperClass="blocks-wrapper"
+            colors={[dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000", dark ? "#ffffff" : "#000000"]}
+          />
         </div>
-        <div className="text-[#667085] ">
-          <p className="text-[12px] md:text-base">11/30/23</p>
+      )}
+
+      {data?.data.length === 0 ? (
+        <div className="flex pt-10 flex-col gap-10 justify-center items-center w-full">
+          <img src={emptyTranscript} width={240} height={240} alt="Create new Transcribing in Live Transcribing page" />
+          <h1 className="dark:text-white text-black tracking-wide cursor-default text-2xl">Create new Transcribing </h1>
         </div>
-        <div className="text-[12px] lg:text-sm flex flex-col gap-1 text-[#667085]">
-          <p>5 multiplier behaviours found</p>
-          <p>2 diminishing behaviours found</p>
-        </div>
-        <button type="button">{!dark ? <BsTrash3 size={19} /> : <img src={IconDelete} height={22} width={25} alt="Delete Conversation" />}</button>
-      </div>
-      <div className="card__history">
-        <div className=" text-[#667085]  flex flex-col gap-2  text-[13px] lg:text-sm">
-          <p className=" text-black/90 dark:text-gray ">
-            Sarah / Ian <br className="sm:hidden block" /> (1:1 weekly sync up call)
-          </p>
-          <p>1 hour ago</p>
-        </div>
-        <div className="text-[#667085]">
-          <p className="text-[12px] md:text-base">11/30/23</p>
-        </div>
-        <div className="text-[12px] lg:text-sm flex flex-col gap-1 text-[#667085]">
-          <p>5 multiplier behaviours found</p>
-          <p>2 diminishing behaviours found</p>
-        </div>
-        <button type="button">{!dark ? <BsTrash3 size={20} /> : <img src={IconDelete} height={22} width={22} alt="Delete Conversation" />}</button>
-      </div>
-      <div className="card__history">
-        <div className=" text-[#667085]  flex flex-col gap-2  text-[13px] lg:text-sm">
-          <p className=" text-black/90 dark:text-gray ">
-            Sarah / Ian <br className="sm:hidden block" /> (1:1 weekly sync up call)
-          </p>
-          <p>1 hour ago</p>
-        </div>
-        <div className="text-[#667085]">
-          <p className="text-[12px] md:text-base">11/30/23</p>
-        </div>
-        <div className="text-[12px] lg:text-sm flex flex-col gap-1 text-[#667085]">
-          <p>5 multiplier behaviours found</p>
-          <p>2 diminishing behaviours found</p>
-        </div>
-        <button type="button">{!dark ? <BsTrash3 size={20} /> : <img src={IconDelete} height={22} width={22} alt="Delete Conversation" />}</button>
-      </div>
-      <div className="card__history">
-        <div className=" text-[#667085]  flex flex-col gap-2  text-[13px] lg:text-sm">
-          <p className=" text-black/90 dark:text-gray ">
-            Sarah / Ian <br className="sm:hidden block" /> (1:1 weekly sync up call)
-          </p>
-          <p>1 hour ago</p>
-        </div>
-        <div className="text-[#667085]">
-          <p className="text-[12px] md:text-base">11/30/23</p>
-        </div>
-        <div className="text-[12px] lg:text-sm flex flex-col gap-1 text-[#667085]">
-          <p>5 multiplier behaviours found</p>
-          <p>2 diminishing behaviours found</p>
-        </div>
-        <button type="button">{!dark ? <BsTrash3 size={20} /> : <img src={IconDelete} height={22} width={22} alt="Delete Conversation" />}</button>
-      </div>
-      <div className="card__history">
-        <div className=" text-[#667085]  flex flex-col gap-2  text-[13px] lg:text-sm">
-          <p className=" text-black/90 dark:text-gray ">
-            Sarah / Ian <br className="sm:hidden block" /> (1:1 weekly sync up call)
-          </p>
-          <p>1 hour ago</p>
-        </div>
-        <div className="text-[#667085]">
-          <p className="text-[12px] md:text-base">11/30/23</p>
-        </div>
-        <div className="text-[12px] lg:text-sm flex flex-col gap-1 text-[#667085]">
-          <p>5 multiplier behaviours found</p>
-          <p>2 diminishing behaviours found</p>
-        </div>
-        <button type="button">{!dark ? <BsTrash3 size={20} /> : <img src={IconDelete} height={22} width={22} alt="Delete Conversation" />}</button>
-      </div>
-      <div className="card__history">
-        <div className=" text-[#667085]  flex flex-col gap-2  text-[13px] lg:text-sm">
-          <p className=" text-black/90 dark:text-gray ">
-            Sarah / Ian <br className="sm:hidden block" /> (1:1 weekly sync up call)
-          </p>
-          <p>1 hour ago</p>
-        </div>
-        <div className="text-[#667085]">
-          <p className="text-[12px] md:text-base">11/30/23</p>
-        </div>
-        <div className="text-[12px] lg:text-sm flex flex-col gap-1 text-[#667085]">
-          <p>5 multiplier behaviours found</p>
-          <p>2 diminishing behaviours found</p>
-        </div>
-        <button type="button">{!dark ? <BsTrash3 size={20} /> : <img src={IconDelete} height={22} width={22} alt="Delete Conversation" />}</button>
-      </div>
-      <div className="card__history">
-        <div className=" text-[#667085]  flex flex-col gap-2  text-[13px] lg:text-sm">
-          <p className=" text-black/90 dark:text-gray ">
-            Sarah / Ian <br className="sm:hidden block" /> (1:1 weekly sync up call)
-          </p>
-          <p>1 hour ago</p>
-        </div>
-        <div className="text-[#667085]">
-          <p className="text-[12px] md:text-base">11/30/23</p>
-        </div>
-        <div className="text-[12px] lg:text-sm flex flex-col gap-1 text-[#667085]">
-          <p>5 multiplier behaviours found</p>
-          <p>2 diminishing behaviours found</p>
-        </div>
-        <button type="button">{!dark ? <BsTrash3 size={20} /> : <img src={IconDelete} height={22} width={22} alt="Delete Conversation" />}</button>
-      </div>
+      ) : (
+        isSuccess && (
+          <>
+            <div className=" pl-3 pr-9 sm:pr-5 sm:pl-5 pt-4 sm:pt-6 md:mt-10 flex items-center justify-between sm:grid  grid-cols-4  text-slate-500 dark:text-gray  gap-2 w-full">
+              <h1 className="text-sm md:text-base">Respondent</h1>
+              <h1 className="text-sm md:text-base">Date</h1>
+              <h1 className="text-sm md:text-base">Behavioaural Trends</h1>
+            </div>
+            {data?.data.map((item: ICardHistory) => (
+              <CHistory key={item._id} {...item} />
+            ))}
+          </>
+        )
+      )}
     </section>
   );
 };
