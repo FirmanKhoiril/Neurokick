@@ -1,10 +1,9 @@
-import { FormEvent } from "react";
 import { useGlobalStore } from "../../context/useStore";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
 const SignUp = () => {
   const { showPassword, setShowPassword, setIsSignup, setIsAuth } = useGlobalStore();
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsAuth(true);
   };

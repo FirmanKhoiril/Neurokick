@@ -37,6 +37,10 @@ body {
 .profile__user {
   @apply pt-5 flex items-center gap-4;
 }
+
+.profile__image {
+  @apply rounded-full h-[35px] object-contain w-[35px] md:w-[35px] md:h-[35px];
+}
 .profile__gmail {
   @apply dark:text-[#667085] text-[#787f90] text-[13px] lg:text-sm;
 }

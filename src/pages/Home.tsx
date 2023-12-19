@@ -15,7 +15,7 @@ const queryClient = new QueryClient();
 
 const Home = () => {
   const navigate = useNavigate();
-  const { browserSupportsSpeechRecognition,  resetTranscript, transcript } = useSpeechRecognition();
+  const { browserSupportsSpeechRecognition, resetTranscript, transcript } = useSpeechRecognition();
   const { isModalStartOpen, setNamePersonCall, setIsModalStartOpen, setModalStopTranscribing, modalStopTranscribing, micStream, setMicStream, transcriptId, listening, setListening, setOpenViewSidebar, setOpenSettings } = useGlobalStore();
 
   const { mutate: saveTranscript, isLoading } = useMutation({

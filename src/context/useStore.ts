@@ -19,8 +19,6 @@ interface IGlobalState {
   setOpenViewSidebar: (openViewSidebar: boolean) => void;
   openSettings: boolean;
   setOpenSettings: (openSettings: boolean) => void;
-  transcript: string;
-  setTranscript: (transcript: any) => void;
   listening: boolean;
   setListening: (listening: boolean) => void;
   micStream: AudioNode | null;
@@ -34,12 +32,12 @@ export const useGlobalStore = create<IGlobalState>()((set) => ({
   transcriptId: "",
   setTranscriptId: (transcriptId: string) => set({ transcriptId }),
   modalStopTranscribing: false,
-  transcript: "",
+
   micStream: null,
   setMicStream: (micStream: AudioNode | null) => set({ micStream }),
   listening: false,
   setListening: (listening: boolean) => set({ listening }),
-  setTranscript: (transcript: any) => set({ transcript }),
+
   setModalStopTranscribing: (modalStopTranscribing: boolean) => set({ modalStopTranscribing }),
   isModalStartOpen: false,
   namePersonCall: "",

@@ -5,8 +5,12 @@ import { CiSettings } from "react-icons/ci";
 import { useLocation, Link } from "react-router-dom";
 
 const Sidebar = () => {
-  const { dark, setOpenSettings, openSettings } = useGlobalStore();
   const location = useLocation();
+  const { dark, setOpenSettings, openSettings, listening } = useGlobalStore();
+
+  const toogleSetting = () => {
+    setOpenSettings(!openSettings);
+  };
 
   return (
     <aside className="sidebar__container relative">
@@ -23,7 +27,7 @@ const Sidebar = () => {
             </button>
           </Link>
           <Link to="/current-history">
-            <button type="button" className={`btn__sidebar px-2 md:px-5 lg:px-8 ${location.pathname === "/current-history" ? "text-black/80 dark:text-gray" : "dark:text-[#667085] text-black/50"}`}>
+            <button type="button" disabled={listening} className={`btn__sidebar px-2 md:px-5 lg:px-8 ${location.pathname === "/current-history" ? "text-black/80 dark:text-gray" : "dark:text-[#667085] text-black/50"}`}>
               <FaHistory size={20} />
               <span className="md:block hidden">Your History</span>
             </button>
@@ -32,13 +36,13 @@ const Sidebar = () => {
       </div>
       <div className="sidebar__bottomside ">
         <div className="profile__user">
-          <img src={User} alt="User Profile" className="rounded-full h-[35px] object-contain w-[35px] md:w-[35px] md:h-[35px]" loading="lazy" />
+          <img src={User} alt="User Profile" className="profile__image" />
           <div className="md:block hidden">
             <p className="text-[15px]">Ian Timotheos</p>
             <p className="profile__gmail">iantimotheos@gmail.com</p>
           </div>
         </div>
-        <button className="btn__settings " onClick={() => setOpenSettings(!openSettings)} type="button">
+        <button className="btn__settings " onClick={toogleSetting} type="button">
           <CiSettings size={25} />
           <span className="md:block hidden">Settings</span>
         </button>
