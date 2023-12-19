@@ -7,8 +7,10 @@ import { LiaStopCircle } from "react-icons/lia";
 import { toast } from "sonner";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const { browserSupportsSpeechRecognition, resetTranscript } = useSpeechRecognition();
   const { isModalStartOpen, namePersonCall, setNamePersonCall, setIsModalStartOpen, setModalStopTranscribing, modalStopTranscribing, micStream, setMicStream, listening, setListening, setOpenViewSidebar, setOpenSettings } = useGlobalStore();
 
@@ -53,29 +55,20 @@ const Home = () => {
           .catch(() => toast.error("Microphone didn't connect on the app"));
       }
     };
-    setListening(true);
     startSpeechRecognition();
 
-    // const intervalId = setInterval(() => {
-    //   SpeechRecognition.stopListening();
-
-    //   resetTranscript();
-    //   startSpeechRecognition();
-    // }, 10000);
     return () => {
-      // clearInterval(intervalId);
       audioMotion.disconnectInput(micStream, true);
-      setListening(false);
-      resetTranscript();
-      SpeechRecognition.stopListening();
     };
-  }, [namePersonCall !== "", !isModalStartOpen]);
+  }, [listening]);
 
   if (!browserSupportsSpeechRecognition) toast.error("Browser didn't support speech recognition");
 
   const handleCloseStopModal = () => {
     setModalStopTranscribing(false);
     setNamePersonCall("");
+    resetTranscript();
+    navigate("/current-history");
     SpeechRecognition.stopListening();
     setListening(false);
   };
@@ -135,21 +128,19 @@ const Home = () => {
           className={`${namePersonCall !== "" && !isModalStartOpen ? "bg-[#6C272D]" : "bg-primary"} btn__start__transcribing`}
         >
           {namePersonCall !== "" && !isModalStartOpen ? <LiaStopCircle size={18} /> : <FaRegPlayCircle size={18} />}
-          <span className="text-[12px] md:text-sm">{namePersonCall !== "" && !isModalStartOpen && listening ? "Stop" : "Start"} Transcribing</span>
+          <span className="text-[12px] md:text-sm">{listening ? "Stop" : "Start"} Transcribing</span>
         </button>
       </div>
-      <div className="w-full h-[300px]  scrollbar-none overflow-y-auto flex-col">
-        <div className={` ${namePersonCall !== "" && !isModalStartOpen ? "p-0" : " p-6"} not__start__transcribing`}>
-          {namePersonCall !== "" ? !isModalStartOpen && <div id="container"></div> : null}
-          <div className={`${namePersonCall !== "" && !isModalStartOpen ? "flex-row justify-between items-center w-full " : "flex-col"} flex`}>
-            <p className={` ${namePersonCall !== "" && !isModalStartOpen && "absolute bottom-4 left-4"} text-black/70 dark:text-gray`}>{namePersonCall !== "" && !isModalStartOpen ? "" : "Not"} Recording</p>
-            <span className={`dark:text-[#61687a] ${namePersonCall !== "" && !isModalStartOpen && "absolute bottom-4 right-4"} text-[#828ba1]  text-sm`}>
-              Audio Quality: {namePersonCall !== "" && !isModalStartOpen ? "24-bit/192 kHz" : "Unknown"}
-            </span>
-          </div>
+      <div className={` ${namePersonCall !== "" && !isModalStartOpen ? "p-0" : " p-6"} not__start__transcribing`}>
+        {namePersonCall !== "" ? !isModalStartOpen && <div id="container"></div> : null}
+        <div className={`${namePersonCall !== "" && !isModalStartOpen ? "flex-row justify-between items-center w-full " : "flex-col"} flex`}>
+          <p className={` ${namePersonCall !== "" && !isModalStartOpen && "absolute bottom-4 left-4"} text-black/70 dark:text-gray`}>{namePersonCall !== "" && !isModalStartOpen ? "" : "Not"} Recording</p>
+          <span className={`dark:text-[#61687a] ${namePersonCall !== "" && !isModalStartOpen && "absolute bottom-4 right-4"} text-[#828ba1]  text-sm`}>
+            Audio Quality: {namePersonCall !== "" && !isModalStartOpen ? "24-bit/192 kHz" : "Unknown"}
+          </span>
         </div>
       </div>
-      {namePersonCall !== "" && !isModalStartOpen && <TranscribingContent />}
+      <div className="w-full max-h-[44vh] mt-3  scrollbar-none overflow-y-auto ">{namePersonCall !== "" && !isModalStartOpen && <TranscribingContent />}</div>
     </section>
   );
 };

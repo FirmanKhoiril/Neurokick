@@ -94,5 +94,5 @@ body {
   @apply w-full h-[159px] overflow-hidden relative rounded-[8px] bg-[#e5e8f5] dark:bg-[#25272d] flex justify-end flex-col items-start;
 }
 #container {
-  @apply block w-[100%]  h-[159px];
+  @apply block w-[100%]  h-[159px] sticky top-0;
 }
