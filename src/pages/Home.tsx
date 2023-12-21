@@ -24,7 +24,7 @@ const Home = () => {
     },
     onSuccess: () => {
       toast.success(`Transcript updated successfuly!`);
-      queryClient.invalidateQueries("getTranscriptById");
+      queryClient.invalidateQueries("getTranscript");
       setModalStopTranscribing(false);
       setNamePersonCall("");
       resetTranscript();
