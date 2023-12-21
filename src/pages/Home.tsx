@@ -8,12 +8,11 @@ import { LiaStopCircle } from "react-icons/lia";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { QueryClient, useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { TSaveTranscript, savedTranscript } from "../api/postTranscript";
 
-const queryClient = new QueryClient();
-
 const Home = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { browserSupportsSpeechRecognition, resetTranscript, transcript } = useSpeechRecognition();
   const { isModalStartOpen, setNamePersonCall, setIsModalStartOpen, setModalStopTranscribing, modalStopTranscribing, micStream, setMicStream, transcriptId, listening, setListening, setOpenViewSidebar, setOpenSettings } = useGlobalStore();
@@ -25,13 +24,13 @@ const Home = () => {
     },
     onSuccess: () => {
       toast.success(`Transcript updated successfuly!`);
-      queryClient.invalidateQueries("getTranscript");
+      queryClient.invalidateQueries("getTranscriptById");
       setModalStopTranscribing(false);
       setNamePersonCall("");
       resetTranscript();
-      navigate("/current-history");
-      SpeechRecognition.stopListening();
       setListening(false);
+      SpeechRecognition.stopListening();
+      navigate("/current-history");
     },
   });
 
@@ -62,12 +61,12 @@ const Home = () => {
           .then((stream) => {
             const newMicStream = audioMotion.audioCtx.createMediaStreamSource(stream);
             audioMotion.connectInput(newMicStream);
+            audioMotion.volume = 0;
+            setMicStream(newMicStream);
             SpeechRecognition.startListening({
               continuous: true,
               language: "en-US",
             });
-            audioMotion.volume = 0;
-            setMicStream(newMicStream);
           })
           .catch(() => toast.error("Microphone didn't connect on the app"));
       }

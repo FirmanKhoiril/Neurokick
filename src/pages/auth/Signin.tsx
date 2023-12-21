@@ -1,14 +1,14 @@
-import { FormEvent } from "react";
 import { useGlobalStore } from "../../context/useStore";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
 const SignIn = () => {
   const { showPassword, setShowPassword, setIsSignup, setIsAuth } = useGlobalStore();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsAuth(true);
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex flex-col gap-2">

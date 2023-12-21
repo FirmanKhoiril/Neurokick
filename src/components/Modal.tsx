@@ -1,9 +1,8 @@
 import { useGlobalStore } from "../context/useStore";
-import { FormEvent } from "react";
 import { toast } from "sonner";
 import { createNewTranscript } from "../api/postTranscript";
-import { useMutation } from "react-query";
-import Loading from "./Loading";
+import { useMutation, useQueryClient } from "react-query";
+import { Loading } from "./";
 
 interface IModal {
   normalText: string;
@@ -14,8 +13,8 @@ interface IModal {
 }
 
 const Modal = ({ normalText, isInput, grayText, onClick, isLoadingSavedTranscript }: IModal) => {
-  const { namePersonCall, setNamePersonCall, setTranscriptId, setListening, setIsModalStartOpen, setModalStopTranscribing } = useGlobalStore();
-
+  const { namePersonCall, setNamePersonCall, listening, setTranscriptId, setListening, setIsModalStartOpen, setModalStopTranscribing } = useGlobalStore();
+  const queryClient = useQueryClient();
   const { mutate: createTranscript, isLoading } = useMutation({
     mutationFn: (name: string) => createNewTranscript(name),
     onError: (err: any) => {
@@ -23,13 +22,15 @@ const Modal = ({ normalText, isInput, grayText, onClick, isLoadingSavedTranscrip
     },
     onSuccess: (data: any) => {
       setIsModalStartOpen(false);
+      queryClient.invalidateQueries("getTranscript");
       setListening(true);
       setTranscriptId(data.data._id);
+
       toast.success(`Success calling ${namePersonCall}`);
     },
   });
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     createTranscript(namePersonCall);
@@ -43,10 +44,13 @@ const Modal = ({ normalText, isInput, grayText, onClick, isLoadingSavedTranscrip
       <div className="flex mt-4 justify-end gap-4 items-end">
         <button
           onClick={() => {
-            setNamePersonCall("");
-            setModalStopTranscribing(false);
-            setIsModalStartOpen(false);
-            setListening(false);
+            if (listening) {
+              setModalStopTranscribing(false);
+            } else {
+              setIsModalStartOpen(false);
+              setNamePersonCall("");
+              setListening(false);
+            }
           }}
           type="button"
           className="border py-2.5 md:py-3.5 w-[140px] md:w-[180px] px-5 border-[#2E6FFF] rounded-[8px] sm:text-base text-sm"

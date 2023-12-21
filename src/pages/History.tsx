@@ -18,11 +18,15 @@ const History = () => {
     <section className="history__section pb-8">
       <h1 className="text-[24px] md:text-[30px] text-slate-500 dark:text-gray tracking-tight">Your History</h1>
 
+      {/* if Loading and fetching to getAllTranscript show Loading components  */}
+
       {isLoading && isFetching && (
         <div className="w-full flex justify-center items-center h-[60vh]">
           <Loading width={80} height={80} />
         </div>
       )}
+
+      {/* When theres no data after fecthing show Nothing Found Components */}
 
       {data?.data.length === 0 ? (
         <NotFound />

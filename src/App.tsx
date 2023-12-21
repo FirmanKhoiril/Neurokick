@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
-import { History, Home, Register } from "./pages";
+import { History, Home, Register, SelectedTranscript } from "./pages";
 import { useGlobalStore } from "./context/useStore";
 import { Navbar, SettingsPopup, Sidebar, ViewSidebar } from "./components";
 import { Toaster } from "sonner";
 
 export const App = (): JSX.Element => {
-  const { isAuth, dark, openViewSidebar, openSettings } = useGlobalStore();
+  const { isAuth, dark, openViewSidebar } = useGlobalStore();
 
   if (!isAuth) return <Register />;
 
@@ -13,7 +13,7 @@ export const App = (): JSX.Element => {
     <div className={` ${dark ? "dark " : "light "} relative `}>
       <main className="main__container ">
         <Sidebar />
-        {openSettings ? <SettingsPopup /> : ""}
+        <SettingsPopup />
         {openViewSidebar && <div className="fixed right-0 top-0 w-full h-screen z-20 bg-black/75" />}
         <ViewSidebar />
         <Toaster richColors position="top-center" theme={dark ? "dark" : "light"} />
@@ -22,6 +22,7 @@ export const App = (): JSX.Element => {
           <Routes>
             <Route element={<Home />} path="/" />
             <Route element={<History />} path="/current-history" />
+            <Route element={<SelectedTranscript />} path="/current-history/:id" />
             <Route element={<Register />} path="/register" />
           </Routes>
         </div>
