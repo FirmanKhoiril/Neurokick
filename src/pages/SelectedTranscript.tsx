@@ -29,19 +29,19 @@ const SelectedTranscript = () => {
                 <MdArrowBack size={20} />
               </button>
               <h1 className="text-[16px] sm:text-[24px] md:text-[30px] text-slate-500 dark:text-gray tracking-tight">
-                Hello, <span className="text-black dark:text-white ">{data?.data.name || "Firman"}</span>
+                Hello, <span className="text-black dark:text-white ">{data?.data?.data.name || "Firman"}</span>
               </h1>
             </div>
             <div className="flex items-center gap-2 py-2 px-3 sm:px-5 rounded-[10px] shadow-black/20 shadow-[0px_12px_26px_2px] md:text-base text-sm">
               <MdDateRange size={20} />
-              <p>{moment(data?.data.createdAt).format("LL")}</p>
+              <p>{moment(data?.data?.data.createdAt).format("LL")}</p>
             </div>
           </div>
           {/* Content */}
           <div className="w-[80%] px-5 mt-4 bg-white dark:bg-white/5 shadow-[2px_6px_8px_2px] shadow-black/20  rounded-tr-3xl rounded-b-3xl py-5 ">
             {/*  */}
 
-            <p>{data?.data.content || "Make sure you start transcribing to create content"}</p>
+            <p>{data?.data?.data.content || "Make sure you start transcribing to create content"}</p>
           </div>
         </div>
       ) : (

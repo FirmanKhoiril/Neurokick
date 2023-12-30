@@ -1,4 +1,5 @@
 import axios from "axios";
+import { TSaveTranscript } from "../types/Types";
 
 export const server = "https://server-llms-app.cyclic.cloud";
 
@@ -31,10 +32,6 @@ export const createNewTranscript = async (name: string) => {
   }
 };
 
-export type TSaveTranscript = {
-  id: string;
-  content: string;
-};
 export const savedTranscript = async ({ id, content }: TSaveTranscript) => {
   try {
     const response = await api.post("/api/saved-transcript", { id, content });

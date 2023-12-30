@@ -10,6 +10,14 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const { dark, listening } = useGlobalStore();
 
+  const handleIsTranscribingOn = () => {
+    if (listening) {
+      toast.error("You must stop transcribing to see your history");
+    } else {
+      navigate("/current-history");
+    }
+  };
+
   return (
     <aside className="sidebar__container relative">
       <div className="sidebar__topside">
@@ -26,17 +34,7 @@ const Sidebar = () => {
           </Link>
 
           {/*  disabled={listening} */}
-          <button
-            type="button"
-            onClick={() => {
-              if (listening) {
-                toast.error("You must stop transcribing to see your history");
-              } else {
-                navigate("/current-history");
-              }
-            }}
-            className={`btn__sidebar px-2 md:px-5 lg:px-8 ${pathname === "/current-history" ? "text-black/80 dark:text-gray" : "dark:text-[#667085] text-black/50"}`}
-          >
+          <button type="button" onClick={handleIsTranscribingOn} className={`btn__sidebar px-2 md:px-5 lg:px-8 ${pathname === "/current-history" ? "text-black/80 dark:text-gray" : "dark:text-[#667085] text-black/50"}`}>
             <FaHistory size={20} />
             <span className="md:block hidden">Your History</span>
           </button>

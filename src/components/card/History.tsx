@@ -1,9 +1,9 @@
 import { IconDelete } from "../../assets/index";
 import { useGlobalStore } from "../../context/useStore";
 import { BsTrash3 } from "react-icons/bs";
-import { ICardHistory } from "../../pages/History";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { ICardHistory } from "../../types/Types";
 
 const History = ({ isProcessing, name, createdAt, _id }: ICardHistory) => {
   const { dark } = useGlobalStore();

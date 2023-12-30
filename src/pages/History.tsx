@@ -1,14 +1,8 @@
 import { CHistory, Loading, NotFound } from "../components";
 import { useGetAllTranscript } from "../hooks/useGetAllTranscript";
 import { toast } from "sonner";
+import { ICardHistory } from "../types/Types";
 
-export interface ICardHistory {
-  _id: string;
-  content: string;
-  name: string;
-  isProcessing: boolean;
-  createdAt: string;
-}
 const History = () => {
   const { data, isError, isFetching, isLoading, isSuccess } = useGetAllTranscript();
 

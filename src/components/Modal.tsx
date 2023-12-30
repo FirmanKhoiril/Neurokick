@@ -1,39 +1,28 @@
 import { useGlobalStore } from "../context/useStore";
-import { toast } from "sonner";
-import { createNewTranscript } from "../api/postTranscript";
-import { useMutation, useQueryClient } from "react-query";
 import { Loading } from "./";
-
-interface IModal {
-  normalText: string;
-  isInput: boolean;
-  grayText: string;
-  onClick: () => void;
-  isLoadingSavedTranscript?: boolean;
-}
+import { useCreateTranscript } from "../hooks/useCreateTranscript";
+import { IModal } from "../types/Types";
 
 const Modal = ({ normalText, isInput, grayText, onClick, isLoadingSavedTranscript }: IModal) => {
-  const { namePersonCall, setNamePersonCall, listening, setTranscriptId, setListening, setIsModalStartOpen, setModalStopTranscribing } = useGlobalStore();
-  const queryClient = useQueryClient();
-  const { mutate: createTranscript, isLoading } = useMutation({
-    mutationFn: (name: string) => createNewTranscript(name),
-    onError: (err: any) => {
-      toast.error(err.message);
-    },
-    onSuccess: (data: any) => {
-      setIsModalStartOpen(false);
-      queryClient.invalidateQueries("getTranscript");
-      setListening(true);
-      setTranscriptId(data.data._id);
+  const { namePersonCall, setNamePersonCall, listening, setListening, setIsModalStartOpen, setModalStopTranscribing } = useGlobalStore();
 
-      toast.success(`Success calling ${namePersonCall}`);
-    },
-  });
+  const { createTranscript, isLoading } = useCreateTranscript();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsModalStartOpen(false);
+    setListening(true);
     createTranscript(namePersonCall);
+  };
+
+  const handleCancelModal = () => {
+    if (listening) {
+      setModalStopTranscribing(false);
+    } else {
+      setIsModalStartOpen(false);
+      setNamePersonCall("");
+      setListening(false);
+    }
   };
 
   return (
@@ -42,19 +31,7 @@ const Modal = ({ normalText, isInput, grayText, onClick, isLoadingSavedTranscrip
       <p className="text-[12px] md:text-sm text-[#7f868b] dark:text-[#B3BCC4]">{grayText}</p>
       {isInput ? <input type="text" value={namePersonCall} onChange={(e) => setNamePersonCall(e.target.value)} required className="modal__input" placeholder="Enter name here..." /> : ""}
       <div className="flex mt-4 justify-end gap-4 items-end">
-        <button
-          onClick={() => {
-            if (listening) {
-              setModalStopTranscribing(false);
-            } else {
-              setIsModalStartOpen(false);
-              setNamePersonCall("");
-              setListening(false);
-            }
-          }}
-          type="button"
-          className="border py-2.5 md:py-3.5 w-[140px] md:w-[180px] px-5 border-[#2E6FFF] rounded-[8px] sm:text-base text-sm"
-        >
+        <button onClick={handleCancelModal} type="button" className="border py-2.5 md:py-3.5 w-[140px] md:w-[180px] px-5 border-[#2E6FFF] rounded-[8px] sm:text-base text-sm">
           No, cancel
         </button>
         {isInput ? (

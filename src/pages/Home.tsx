@@ -1,82 +1,20 @@
 import { Modal, TranscribingContent } from "../components";
 import { useGlobalStore } from "../context/useStore";
-import AudioMotionAnalyzer from "audiomotion-analyzer";
 import "regenerator-runtime/runtime";
-import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import { useSpeechRecognition } from "react-speech-recognition";
 import { FaRegPlayCircle } from "react-icons/fa";
 import { LiaStopCircle } from "react-icons/lia";
 import { toast } from "sonner";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "react-query";
-import { TSaveTranscript, savedTranscript } from "../api/postTranscript";
+import { useAudioMotionSpeechRecognition } from "../hooks/useAudioMotionSpeechRecognition";
+import { useSaveTranscript } from "../hooks/useSaveTranscript";
 
 const Home = () => {
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-  const { browserSupportsSpeechRecognition, resetTranscript, transcript } = useSpeechRecognition();
-  const { isModalStartOpen, setNamePersonCall, setIsModalStartOpen, setModalStopTranscribing, modalStopTranscribing, micStream, setMicStream, transcriptId, listening, setListening, setOpenViewSidebar, setOpenSettings } = useGlobalStore();
+  const { browserSupportsSpeechRecognition, transcript } = useSpeechRecognition();
+  const { isModalStartOpen, setNamePersonCall, setIsModalStartOpen, setModalStopTranscribing, modalStopTranscribing, transcriptId, listening, setOpenViewSidebar, setOpenSettings } = useGlobalStore();
 
-  const { mutate: saveTranscript, isLoading } = useMutation({
-    mutationFn: ({ content, id }: TSaveTranscript) => savedTranscript({ content, id }),
-    onError: (err: any) => {
-      toast.error(err.message);
-    },
-    onSuccess: () => {
-      toast.success(`Transcript updated successfuly!`);
-      queryClient.invalidateQueries("getTranscript");
-      setModalStopTranscribing(false);
-      setNamePersonCall("");
-      resetTranscript();
-      setListening(false);
-      SpeechRecognition.stopListening();
-      navigate("/current-history");
-    },
-  });
+  const { saveTranscript, isLoading } = useSaveTranscript();
 
-  useEffect(() => {
-    const containerElement = document.getElementById("container");
-    const audioMotion = new AudioMotionAnalyzer(containerElement ?? undefined, {
-      mode: 10,
-      channelLayout: "single",
-      fillAlpha: 0.6,
-      gradient: "prism",
-      lineWidth: 1.5,
-      maxFreq: 20000,
-      minFreq: 30,
-      mirror: -1,
-      height: 159,
-      radial: false,
-      reflexAlpha: 1,
-      reflexBright: 1,
-      reflexRatio: 0.5,
-      showPeaks: false,
-      showScaleX: false,
-    });
-
-    const startSpeechRecognition = () => {
-      if (navigator.mediaDevices) {
-        navigator.mediaDevices
-          .getUserMedia({ audio: true, video: false })
-          .then((stream) => {
-            const newMicStream = audioMotion.audioCtx.createMediaStreamSource(stream);
-            audioMotion.connectInput(newMicStream);
-            audioMotion.volume = 0;
-            setMicStream(newMicStream);
-            SpeechRecognition.startListening({
-              continuous: true,
-              language: "en-US",
-            });
-          })
-          .catch(() => toast.error("Microphone didn't connect on the app"));
-      }
-    };
-    startSpeechRecognition();
-
-    return () => {
-      audioMotion.disconnectInput(micStream, true);
-    };
-  }, [listening]);
+  useAudioMotionSpeechRecognition();
 
   if (!browserSupportsSpeechRecognition) toast.error("Browser didn't support speech recognition");
 
@@ -105,6 +43,20 @@ const Home = () => {
       </>
     );
 
+  const handleCloseViewSideKick = () => {
+    setOpenViewSidebar(true);
+    setOpenSettings(false);
+  };
+
+  const handleStartStopTranscribing = () => {
+    if (listening) {
+      setModalStopTranscribing(true);
+      setOpenSettings(false);
+    } else {
+      setIsModalStartOpen(true);
+      setOpenSettings(false);
+    }
+  };
   return (
     <section className="home__section">
       <div className="flex__between pb-4">
@@ -113,31 +65,12 @@ const Home = () => {
             <p className="text-[14px] md:text-[18px] lg:text-[28px] tracking-tight">Live Transcribe</p>
           </div>
           {listening && (
-            <button
-              type="button"
-              onClick={() => {
-                setOpenViewSidebar(true);
-                setOpenSettings(false);
-              }}
-              className="tracking-tight h-[40px] lg:h-[55px] text-[14px] md:text-[18px] lg:text-[28px] text-[#9b9fab] dark:text-[#667085]"
-            >
+            <button type="button" onClick={handleCloseViewSideKick} className="tracking-tight h-[40px] lg:h-[55px] text-[14px] md:text-[18px] lg:text-[28px] text-[#9b9fab] dark:text-[#667085]">
               View Side Kick
             </button>
           )}
         </div>
-        <button
-          type="button"
-          onClick={() => {
-            if (listening) {
-              setModalStopTranscribing(true);
-              setOpenSettings(false);
-            } else {
-              setIsModalStartOpen(true);
-              setOpenSettings(false);
-            }
-          }}
-          className={`${listening ? "bg-[#6C272D]" : "bg-primary"} btn__start__transcribing`}
-        >
+        <button type="button" onClick={handleStartStopTranscribing} className={`${listening ? "bg-[#6C272D]" : "bg-primary"} btn__start__transcribing`}>
           {listening ? <LiaStopCircle size={18} /> : <FaRegPlayCircle size={18} />}
           <span className="text-[12px] md:text-sm">{listening ? "Stop" : "Start"} Transcribing</span>
         </button>
